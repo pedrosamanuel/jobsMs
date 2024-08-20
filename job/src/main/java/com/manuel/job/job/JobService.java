@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -27,12 +28,17 @@ public class JobService {
         this.jobRepository=jobRepository;
     }
 
-    @CircuitBreaker(name = "companyBreaker")
+    @CircuitBreaker(name = "companyBreaker",fallbackMethod = "companyBreakerFallback")
     public List<JobDTO> getAllJobs() {
         List<Job> jobs = jobRepository.findAll();
         return jobs.stream().map(this::convertToDto).collect(Collectors.toList());
     }
+    public List<String> companyBreakerFallback(Exception e){
+        List<String> list = new ArrayList<>();
+        list.add("Error Fallback");
 
+        return list;
+    }
     public JobDTO getJobById(Long id){
         Job job = jobRepository.findById(id).orElse(null);
         JobDTO jobDTO;
