@@ -7,6 +7,7 @@ import com.manuel.job.job.external.Company;
 import com.manuel.job.job.external.Review;
 import com.manuel.job.job.mapper.JobMapper;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ public class JobService {
     }
 
     @CircuitBreaker(name = "companyBreaker",fallbackMethod = "companyBreakerFallback")
+    @RateLimiter(name = "companyBreaker")
     public List<JobDTO> getAllJobs() {
         List<Job> jobs = jobRepository.findAll();
         return jobs.stream().map(this::convertToDto).collect(Collectors.toList());

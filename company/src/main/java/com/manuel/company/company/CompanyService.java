@@ -1,5 +1,7 @@
 package com.manuel.company.company;
 
+import com.manuel.company.company.clients.ReviewClient;
+import com.manuel.company.company.dto.ReviewMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,8 @@ import java.util.Optional;
 public class CompanyService {
     @Autowired
     CompanyRepository companyRepository;
+    @Autowired
+    ReviewClient reviewClient;
 
     public List<Company> getAllCompanies(){
         return companyRepository.findAll();
@@ -38,5 +42,15 @@ public class CompanyService {
             return true;
         }
         return false;
+    }
+
+    public void updateCompany(ReviewMessage reviewMessage) {
+        Double average = reviewClient.getAverageRating(reviewMessage.getCompanyId());
+        Optional<Company> companyOptional = companyRepository.findById(reviewMessage.getCompanyId());
+        if(companyOptional.isPresent()){
+            Company company = companyOptional.get();
+            company.setAverage(average);
+            companyRepository.save(company);
+        }
     }
 }
