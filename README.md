@@ -24,3 +24,28 @@ El sistema se compone de varios microservicios que gestionan los empleos, las em
   <li><b>Microservicio Company:</b> Gestiona las empresas, permitiendo crear, actualizar y eliminar información sobre ellas.</li>
   <li><b>Microservicio Review:</b> Gestiona las reseñas de las empresas, permitiendo a los usuarios evaluar sus experiencias con diferentes compañías.</li>
 </ul>
+<h2>Docker</h2>
+
+<p>Este archivo <code>docker-compose.yml</code> define la infraestructura básica para el sistema de microservicios, utilizando Docker para crear y gestionar los contenedores necesarios. Cada servicio en este archivo tiene un propósito específico:</p>
+
+<ul>
+  <li>
+    <strong>PostgreSQL:</strong> 
+    <p>Proporciona una base de datos relacional para almacenar datos de la aplicación. La configuración define un usuario y contraseña predeterminados, y monta un volumen persistente para conservar los datos entre reinicios.</p>
+  </li>
+  <li>
+    <strong>pgAdmin:</strong> 
+    <p>Una herramienta de administración de base de datos que permite interactuar y gestionar la instancia de PostgreSQL a través de una interfaz gráfica accesible en el navegador. La configuración incluye un correo y contraseña de acceso por defecto, y expone el puerto <code>5050</code> en la máquina local.</p>
+  </li>
+  <li>
+    <strong>Zipkin:</strong> 
+    <p>Proporciona rastreo distribuido para la arquitectura de microservicios. Permite monitorear y visualizar la latencia de las solicitudes en cada servicio, ayudando a identificar problemas de rendimiento. Se expone en el puerto <code>9411</code>.</p>
+  </li>
+  <li>
+    <strong>RabbitMQ:</strong> 
+    <p>Un sistema de mensajería que facilita la comunicación asíncrona entre los microservicios. Incluye la interfaz de administración en el puerto <code>15672</code> y el puerto de mensajería en <code>5672</code>, permitiendo una gestión eficiente y la visualización del tráfico de mensajes.</p>
+  </li>
+</ul>
+
+<p>El uso de Docker en esta configuración facilita la administración de dependencias de la aplicación y permite un entorno controlado y reproducible en desarrollo y producción.</p>
+
